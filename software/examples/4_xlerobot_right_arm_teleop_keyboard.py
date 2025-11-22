@@ -1,6 +1,6 @@
 # To Run on the host
 '''python
-PYTHONPATH=src python -m lerobot.robots.xlerobot.xlerobot_host --robot.id=my_xlerobot
+PYTHONPATH=src python -m lerobot.robots.xlerobot_right_arm.xlerobot_right_arm_host --robot.id=my_xlerobot_right_arm_pc
 '''
 
 # To Run the teleop:
@@ -13,7 +13,7 @@ import numpy as np
 import math
 
 from lerobot.robots.xlerobot_right_arm import XLerobotRightArmConfig, XLerobotRightArm
-# from lerobot.robots.xlerobot import XLerobotClient, XLerobotClientConfig
+from lerobot.robots.xlerobot_right_arm import XLerobotRightArmClient, XLerobotRightArmClientConfig
 from lerobot.utils.robot_utils import busy_wait
 from lerobot.utils.visualization_utils import init_rerun, log_rerun_data
 from lerobot.model.SO101Robot import SO101Kinematics
@@ -348,12 +348,12 @@ def main():
     robot_name = "my_xlerobot_right_arm_pc"
 
     # For zmq connection
-    # robot_config = XLerobotClientConfig(remote_ip=ip, id=robot_name)
-    # robot = XLerobotClient(robot_config)    
+    robot_config = XLerobotRightArmClientConfig(remote_ip=ip, id=robot_name)
+    robot = XLerobotRightArmClient(robot_config)
 
     # For local/wired connection
-    robot_config = XLerobotRightArmConfig()
-    robot = XLerobotRightArm(robot_config)
+    # robot_config = XLerobotRightArmConfig()
+    # robot = XLerobotRightArm(robot_config)
 
     try:
         robot.connect()

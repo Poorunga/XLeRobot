@@ -295,8 +295,6 @@ class XLerobotRightArmClient(Robot):
             theta_cmd -= theta_speed
             
         return {
-            # "head_motor_1.pos": 0.0,  # Head motors are not controlled by keyboard
-            # "head_motor_2.pos": 0.0,  # TODO: implement head control
             "x.vel": x_cmd, 
             "y.vel": y_cmd,
             "theta.vel": theta_cmd,
