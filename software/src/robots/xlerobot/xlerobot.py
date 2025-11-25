@@ -302,9 +302,9 @@ class XLerobot(Robot):
         # and torque can be safely disabled to run calibration        
         self.bus1.disable_torque()
         self.bus2.disable_torque()
+        self.bus1.configure_motors()
         self.bus2.configure_motors()
-        self.bus2.configure_motors()
-        
+
         for name in self.left_arm_motors:
             self.bus1.write("Operating_Mode", name, OperatingMode.POSITION.value)
             # Set P_Coefficient to lower value to avoid shakiness (Default is 32)
