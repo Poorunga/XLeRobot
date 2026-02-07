@@ -403,6 +403,8 @@ class HTTPTeleopServer:
         # Flask app
         self.app = Flask(__name__)
         self._setup_routes()
+        # running flag (set when server thread starts)
+        self.running = False
 
     def _setup_routes(self):
         @self.app.route("/actions", methods=["POST", "GET"])
@@ -477,6 +479,20 @@ class HTTPTeleopServer:
             threading.Thread(target=_do_hang, daemon=True).start()
             return jsonify({'status': 'ok', 'arm': arm})
 
+        @self.app.route("/health", methods=["GET"])
+        def health():
+            """Simple health check for the HTTP teleop server."""
+            # return whether server thread has been started and basic info
+            with self.lock:
+                return jsonify({
+                    'status': 'ok' if self.running else 'starting',
+                    'registered_arms': {
+                        'left': self.left_arm is not None,
+                        'right': self.right_arm is not None
+                    },
+                    'char_map_size': len(self.char_to_action)
+                })
+
     def _run_sequence(self, seq, hold=0.08, gap=0.02):
         """Execute a sequence of characters sequentially in background."""
         for ch in seq:
@@ -532,6 +548,8 @@ class HTTPTeleopServer:
         print(f"[HTTP] Starting Flask server on http://{self.host}:{self.port}")
         # Run Flask in a daemon thread so main loop can continue
         t = threading.Thread(target=self.app.run, kwargs={'host': self.host, 'port': self.port, 'threaded': True}, daemon=True)
+        # mark running before starting thread so /health reflects state
+        self.running = True
         t.start()
 
 
@@ -581,8 +599,6 @@ def main():
     http_server.start()
     # Give the server a moment to start
     time.sleep(1)
-    print(f"[MAIN] HTTP server started on http://{WS_HOST}:{WS_PORT}")
-    print(f"[MAIN] Clients can POST plain character sequences to /actions, e.g. 'qqq' or 'qrg'.")
 
     # Init the arm instances
     obs = robot.get_observation()
