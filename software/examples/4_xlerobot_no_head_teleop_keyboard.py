@@ -21,11 +21,12 @@ from lerobot.teleoperators.keyboard.teleop_keyboard import KeyboardTeleop, Keybo
 
 # Keymaps (semantic action: key)
 LEFT_KEYMAP = {
-    'shoulder_pan+': 'q', 'shoulder_pan-': 'e',
-    'wrist_roll+': 'r', 'wrist_roll-': 'f',
-    'gripper+': 't', 'gripper-': 'g',
-    'x+': 'w', 'x-': 's', 'y+': 'a', 'y-': 'd',
-    'pitch+': 'z', 'pitch-': 'x',
+    'shoulder_pan+': 'q', 'shoulder_pan-': 'e',   # 大臂旋转
+    'wrist_roll+': 'r', 'wrist_roll-': 'f',       # 手腕旋转
+    'gripper+': 't', 'gripper-': 'g',             # 夹爪
+    'x+': 'w', 'x-': 's',                         # 大臂下压上抬
+    'y+': 'a', 'y-': 'd',                         # 二臂下压上抬
+    'pitch+': 'z', 'pitch-': 'x',                 # 手腕下压上抬
     'reset': 'c',
     # For head motors
     "head_motor_1+": "<", "head_motor_1-": ">",
@@ -34,11 +35,12 @@ LEFT_KEYMAP = {
     'triangle': 'y',  # Rectangle trajectory key
 }
 RIGHT_KEYMAP = {
-    'shoulder_pan+': '7', 'shoulder_pan-': '9',
-    'wrist_roll+': '/', 'wrist_roll-': '*',
-    'gripper+': '+', 'gripper-': '-',
-    'x+': '8', 'x-': '2', 'y+': '4', 'y-': '6',
-    'pitch+': '1', 'pitch-': '3',
+    'shoulder_pan+': '7', 'shoulder_pan-': '9',   # 大臂旋转
+    'wrist_roll+': '/', 'wrist_roll-': '*',       # 手腕旋转
+    'gripper+': '+', 'gripper-': '-',             # 夹爪
+    'x+': '8', 'x-': '2',                         # 大臂下压上抬
+    'y+': '4', 'y-': '6',                         # 二臂下压上抬
+    'pitch+': '1', 'pitch-': '3',                 # 手腕下压上抬
     'reset': '0',
 
     'triangle': 'Y',  # Rectangle trajectory key
@@ -259,7 +261,7 @@ class SimpleTeleopArm:
                 
                 # Get observation and log data
                 obs = robot.get_observation()
-                log_rerun_data(obs, robot_action)
+                # log_rerun_data(obs, robot_action)
                 
             except Exception as e:
                 print(f"[{self.prefix}] IK failed at x={self.current_x:.4f}, y={self.current_y:.4f}: {e}")
@@ -364,7 +366,7 @@ def main():
         print(robot)
         return
 
-    init_rerun(session_name="xlerobot_no_head_teleop_v2")
+    # init_rerun(session_name="xlerobot_no_head_teleop_v2")
 
     #Init the keyboard instance
     keyboard_config = KeyboardTeleopConfig()
@@ -425,7 +427,7 @@ def main():
 
             obs = robot.get_observation()
             # print(f"[MAIN] Observation: {obs}")
-            log_rerun_data(obs, action)
+            # log_rerun_data(obs, action)
             # busy_wait(1.0 / FPS)
     finally:
         robot.disconnect()
