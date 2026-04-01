@@ -345,17 +345,17 @@ class SimpleTeleopArm:
 def main():
     # Teleop parameters
     FPS = 50
-    ip = "192.168.3.150"  # This is for zmq connection
     # ip = "localhost"  # This is for local/wired connection
     robot_name = "my_xlerobot_no_head_pc"
 
     # For zmq connection
-    robot_config = XLerobotNoHeadClientConfig(remote_ip=ip, id=robot_name)
-    robot = XLerobotNoHeadClient(robot_config)    
+    ip = "192.168.3.150"  # This is for zmq connection
+    # robot_config = XLerobotNoHeadClientConfig(remote_ip=ip, id=robot_name)
+    # robot = XLerobotNoHeadClient(robot_config)
 
     # For local/wired connection
-    # robot_config = XLerobotNoHeadConfig()
-    # robot = XLerobotNoHead(robot_config)
+    robot_config = XLerobotNoHeadConfig(id=robot_name)
+    robot = XLerobotNoHead(robot_config)
     
     try:
         robot.connect()

@@ -135,7 +135,7 @@ class RectangularTrajectory:
 
 
 class SimpleTeleopArm:
-    def __init__(self, kinematics, joint_map, initial_obs, prefix="left", kp=0.41):
+    def __init__(self, kinematics, joint_map, initial_obs, prefix="left", kp=0.91):
         self.kinematics = kinematics
         self.joint_map = joint_map
         self.prefix = prefix  # To distinguish left and right arm
@@ -154,8 +154,8 @@ class SimpleTeleopArm:
         self.current_y = 0.1131
         self.pitch = 0.0
         # Set the degree step and xy step
-        self.degree_step = 0.3
-        self.xy_step = 0.00081
+        self.degree_step = 3
+        self.xy_step = 0.0081
         # Set target positions to zero for P control
         self.target_positions = {
             "shoulder_pan": 0.0,
